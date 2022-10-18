@@ -39,9 +39,9 @@
 
 
         // var receitas = [
-        //     { id: 1, nome: 'waffle', imagemUrl: "<img src=\"https:\/\/images.unsplash.com\/photo-1562376552-0d160a2f238d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=725&q=80\" alt=\"Waffle\" width=\"50px\">", dataCriacao: new Date() },
-        //     { id: 2, nome: 'cake', imagemUrl: "<img src=\"https:\/\/images.unsplash.com\/photo-1588195538326-c5b1e9f80a1b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8Y2FrZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60&auto=format&fit=crop&w=725&q=80\" alt=\"Waffle\" width=\"50px\">", dataCriacao: new Date() },
-        //     { id: 3, nome: 'cookie', imagemUrl: "<img src=\"https://images.unsplash.com/photo-1597733153203-a54d0fbc47de?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8Y29va2llfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60\" alt=\"Waffle\" width=\"50px\">", dataCriacao: new Date() },
+        //     { id: 1, nome: 'waffle', imagemUrl: "https:\/\/images.unsplash.com\/photo-1562376552-0d160a2f238d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=725&q=80", dataCriacao: new Date() },
+        //     { id: 2, nome: 'cake', imagemUrl: "https:\/\/images.unsplash.com\/photo-1588195538326-c5b1e9f80a1b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8Y2FrZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60&auto=format&fit=crop&w=725&q=80", dataCriacao: new Date() },
+        //     { id: 3, nome: 'cookie', imagemUrl: "https://images.unsplash.com/photo-1597733153203-a54d0fbc47de?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8Y29va2llfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60", dataCriacao: new Date() },
         // ]
 
         // var receitas2 = JSON.stringify(receitas)
@@ -59,19 +59,28 @@
 
     function onClick(event) {
         var id = this.children[0].innerText
-        window.location.href = `waffle.html?id=${id}`
+        window.location.href = `recipe.html?id=${id}`
+    }
+
+    function getValue(value) {
+        console.log(value)
+        if (typeof (value) === 'string' && value.startsWith("http")) {
+            var img = document.createElement('img')
+            img.width = "50"
+            img.src = value
+
+            return img.outerHTML
+        }
+
+        return value;
     }
 
     function criarLinhaReceita(tr, receita) {
         Object.entries(receita).forEach(([key, value]) => {
             var td = document.createElement("td")
             tr.appendChild(td)
-            td.innerHTML = value
+            td.innerHTML = getValue(value)
         })
-    }
-
-    receitas.onclick() = function () {
-        JSON.parse(localStorage.getItem("waffle"))
     }
 </script>
 

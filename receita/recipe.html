@@ -12,17 +12,15 @@
 
     <link rel="stylesheet" href="./styles.css">
 
-    <title>Waffle</title>
+    <title id="tittle">Waffle</title>
 </head>
 
 <body onload="onloadPage()">
     <div class="container">
         <header>
-            <h1>WAFFLE CLÁSSICO</h1>
-            <figure>
-                <img src="https://images.unsplash.com/photo-1562376552-0d160a2f238d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=725&q=80"
-                    alt="Waffle Clássico" class="image">
-                <figcaption class="subtittle">Receita de Waffle Clássico</figcaption>
+            <h1 id="h1"></h1>
+            <figure id="figure">
+                <img id="foto" src="" alt="" width="400">
             </figure>
         </header>
 
@@ -68,9 +66,19 @@
 
 <script>
     function onloadPage() {
+        var foto = document.getElementById('foto')
         let params = new URLSearchParams(document.location.search);
         let id = params.get("id")
-        alert(id)
+        var tittle = document.getElementById('tittle')
+        var h1 = document.getElementById('h1')
+
+        var receitas = JSON.parse(localStorage.getItem('receitas'))
+
+        var filtered = receitas.find(receita => receita.id == id)
+
+        foto.src = filtered.imagemUrl
+        h1.innerHTML = filtered.nome
+        tittle.innerHTML = filtered.nome
     }
 </script>
 
