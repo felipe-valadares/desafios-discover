@@ -21,6 +21,7 @@
                     <th>nome</th>
                     <th>imagem</th>
                     <th>data criação</th>
+                    <input type="button" value="Add" onclick="openForm()">
                 </tr>
             </thead>
 
@@ -81,6 +82,10 @@
             tr.appendChild(td)
             td.innerHTML = getValue(value)
         })
+    }
+
+    function openForm() {
+        window.location.href = 'form.html'
     }
 </script>
 
