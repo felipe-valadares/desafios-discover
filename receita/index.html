@@ -21,6 +21,7 @@
                     <th>nome</th>
                     <th>imagem</th>
                     <th>data criação</th>
+                    <button id="add" onclick="addRecipe()">Add</button>
                 </tr>
             </thead>
 
@@ -63,7 +64,6 @@
     }
 
     function getValue(value) {
-        console.log(value)
         if (typeof (value) === 'string' && value.startsWith("http")) {
             var img = document.createElement('img')
             img.width = "50"
@@ -81,6 +81,10 @@
             tr.appendChild(td)
             td.innerHTML = getValue(value)
         })
+    }
+
+    function addRecipe() {
+        window.location.href = 'form.html'
     }
 </script>
 
