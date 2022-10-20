@@ -1,31 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+
 <body>
-    <form action="index.html">
-        <b>Nome</b><input type="text" name="nome" id="nome">
-        <b>URL da Imagem</b><input type="url">
-        <input type="submit" value="Submit" onsubmit="onSubmit()">
+    <form onsubmit="return onSubmit(event)" action="index.html">
+        <b>Nome</b><input type="text" name="nome" id="nome" value="">
+        <b>URL da Imagem</b><input type="url"
+            value=""
+            id="url">
+        <input type="submit" value="Submit">
     </form>
 </body>
 
 <script>
-    var nome = document.getElementById('nome')
-    var img = document.getElementById('url')
-    var receitas = localStorage.getItem('receitas')
 
-    function entryItems () {
+    var receitas = JSON.parse(localStorage.getItem('receitas'))
+
+    function entryItems() {
+        receitas.sort((a, b) => a.id - b.id);
+        var lastId = receitas[receitas.length - 1]
+        var newId = lastId.id + 1
+        return newId
+    }
+
+
+
+    function onSubmit(e) {
+        e.preventDefault()
+
+        var name = document.getElementById('nome')
+        var img = document.getElementById('url')
+        var entryItemsString = entryItems()
+
+        var newRecipe = { id: entryItemsString, nome: name.value, imagemUrl: img.value, dataCriacao: new Date() }
+
+        receitas.push(newRecipe)
         
-    }
+        localStorage.setItem("receitas", JSON.stringify(receitas))
 
-    function onSubmit(){
-        localStorage.setItem()
-    
+        e.target.submit()
     }
-        </script>
+</script>
+
 </html>

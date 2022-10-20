@@ -7,11 +7,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="./styles-recipes.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 
     <title>Document</title>
 </head>
 
-<body onload="onloadPage()">
+<body onload="onloadPage()" onload="criarBotoes()">
     <div id="container">
         <table id="table">
 
@@ -21,7 +23,11 @@
                     <th>nome</th>
                     <th>imagem</th>
                     <th>data criação</th>
+<<<<<<< HEAD
                     <button id="add" onclick="addRecipe()">Add</button>
+=======
+                    <input type="button" value="Add" onclick="openForm()">
+>>>>>>> 200a006064a24e06ad741e9473de71e0e32820c4
                 </tr>
             </thead>
 
@@ -52,21 +58,32 @@
 
         receitas.forEach(receita => {
             var tr = document.createElement("tr")
-            tr.onclick = onClick
             tbody.appendChild(tr)
             criarLinhaReceita(tr, receita)
+            criarBotoes(tr, receita)
         });
     }
 
-    function onClick(event) {
-        var id = this.children[0].innerText
+    function onClickVizualizar(event) {
+        var id = this.parentElement.parentElement.children[0].innerText
         window.location.href = `recipe.html?id=${id}`
     }
 
+    function onClickEditar(event) {
+        var id = this.children[0].innerText
+        window.location.href = `form.html?id=${id}`
+    }
+
+    function onClickExcluir(event) {
+        var id = this.children[0].innerText
+        window.location.href = `recipe.html?id=${id}`
+    }
+    
     function getValue(value) {
         if (typeof (value) === 'string' && value.startsWith("http")) {
             var img = document.createElement('img')
             img.width = "50"
+            img.height = "50"
             img.src = value
 
             return img.outerHTML
@@ -83,7 +100,34 @@
         })
     }
 
+<<<<<<< HEAD
     function addRecipe() {
+=======
+    function criarBotao(td, icone, onclick) {
+        var button = document.createElement("button")
+        button.className = "btn"
+        button.onclick = onclick
+
+        var i = document.createElement('i')
+        i.className = `fa fa-${icone}`
+        button.appendChild(i)
+
+        td.appendChild(button)
+
+
+    }
+
+    function criarBotoes(tr, receita) {
+        var td = document.createElement("td")
+        tr.appendChild(td)
+
+        criarBotao(td, "eye", onClickVizualizar)
+        criarBotao(td, "edit", onClickEditar)
+        criarBotao(td, "trash", onClickExcluir)
+    }
+
+    function openForm() {
+>>>>>>> 200a006064a24e06ad741e9473de71e0e32820c4
         window.location.href = 'form.html'
     }
 </script>
