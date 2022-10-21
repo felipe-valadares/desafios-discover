@@ -23,11 +23,7 @@
                     <th>nome</th>
                     <th>imagem</th>
                     <th>data criação</th>
-<<<<<<< HEAD
-                    <button id="add" onclick="addRecipe()">Add</button>
-=======
                     <input type="button" value="Add" onclick="openForm()">
->>>>>>> 200a006064a24e06ad741e9473de71e0e32820c4
                 </tr>
             </thead>
 
@@ -70,13 +66,19 @@
     }
 
     function onClickEditar(event) {
-        var id = this.children[0].innerText
+        var id = this.parentElement.parentElement.children[0].innerText
         window.location.href = `form.html?id=${id}`
     }
 
     function onClickExcluir(event) {
-        var id = this.children[0].innerText
-        window.location.href = `recipe.html?id=${id}`
+        var id = this.parentElement.parentElement.children[0].innerText
+
+        var receitas = JSON.parse(localStorage.getItem("receitas"))
+
+        var objIdIndex = receitas.findIndex(receita => receita.id == id)
+        receitas.splice(objIdIndex, 1)
+        localStorage.setItem("receitas", JSON.stringify(receitas))
+        location.reload()
     }
     
     function getValue(value) {
@@ -100,9 +102,6 @@
         })
     }
 
-<<<<<<< HEAD
-    function addRecipe() {
-=======
     function criarBotao(td, icone, onclick) {
         var button = document.createElement("button")
         button.className = "btn"
@@ -127,7 +126,6 @@
     }
 
     function openForm() {
->>>>>>> 200a006064a24e06ad741e9473de71e0e32820c4
         window.location.href = 'form.html'
     }
 </script>
