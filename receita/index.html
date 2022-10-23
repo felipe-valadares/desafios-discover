@@ -50,6 +50,17 @@
         // var receitas2 = JSON.stringify(receitas)
         // localStorage.setItem("receitas", receitas2)
 
+        const url = "http://localhost:3000/receitas"
+
+        async function getData() {
+            const r = await fetch(url);
+            const data = await r.json();
+
+            localStorage.setItem('receitas', JSON.stringify(data))
+        }
+
+        getData();
+
         var receitas = JSON.parse(localStorage.getItem("receitas"))
 
         receitas.forEach(receita => {
@@ -80,7 +91,7 @@
         localStorage.setItem("receitas", JSON.stringify(receitas))
         location.reload()
     }
-    
+
     function getValue(value) {
         if (typeof (value) === 'string' && value.startsWith("http")) {
             var img = document.createElement('img')

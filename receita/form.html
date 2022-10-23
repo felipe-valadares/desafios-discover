@@ -10,9 +10,9 @@
 
 <body onload="getRecipe()">
     <form onsubmit="return onSubmit(event)" action="index.html">
-        <b>Nome</b><input type="text" name="nome" id="nome" value="">
+        <b>Nome</b><input type="text" name="nome" id="nome" value="abcd">
 
-        <b>URL da Imagem</b><input type="url" value="" id="url">
+        <b>URL da Imagem</b><input type="url" value="https:a.com" id="url">
 
 
         <input type="submit" value="Submit">
@@ -20,6 +20,14 @@
 </body>
 
 <script>
+    const url = 'http://localhost:3000/receitas'
+    async function getData() {
+        const r = await fetch(url);
+        const data = Promise.resolve(r.json())
+            .then((value) => localStorage.setItem('receitas', JSON.stringify(value)))
+
+    }
+
     var receitas = JSON.parse(localStorage.getItem('receitas'))
 
     function getId() {
@@ -34,7 +42,7 @@
 
         var editRecipe = receitas.find(receita => receita.id == id)
 
-        var name = document.getElementById('nome')
+        const name = document.getElementById('nome')
         var img = document.getElementById('url')
         name.value = editRecipe.nome
         url.value = editRecipe.imagemUrl
@@ -62,22 +70,27 @@
 
 
     function onSubmit(e) {
+
+
         e.preventDefault()
 
-        var name = document.getElementById('nome')
-        var img = document.getElementById('url')
+        const name = document.getElementById('nome')
+        const img = document.getElementById('url')
 
         var entryItemsString = entryItems()
 
         var newRecipe = { id: entryItemsString, nome: name.value, imagemUrl: img.value, dataCriacao: new Date() }
 
-        receitas.push(newRecipe)
+        receitas.push(newRecipe);
 
 
-        localStorage.setItem("receitas", JSON.stringify(receitas))
+        localStorage.setItem("receitas", JSON.stringify(receitas));
 
-        e.target.submit()
+        e.target.submit();
+        
     }
+
+
 </script>
 
 </html>
