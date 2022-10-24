@@ -10,9 +10,9 @@
 
 <body onload="getRecipe()">
     <form onsubmit="return onSubmit(event)" action="index.html">
-        <b>Nome</b><input type="text" name="nome" id="nome" value="abcd">
+        <b>Nome</b><input type="text" name="nome" id="nome" value="">
 
-        <b>URL da Imagem</b><input type="url" value="https:a.com" id="url">
+        <b>URL da Imagem</b><input type="url" value="" id="url">
 
 
         <input type="submit" value="Submit">
@@ -20,6 +20,7 @@
 </body>
 
 <script>
+    
     const url = 'http://localhost:3000/receitas'
     async function getData() {
         const r = await fetch(url);
@@ -42,7 +43,7 @@
 
         var editRecipe = receitas.find(receita => receita.id == id)
 
-        const name = document.getElementById('nome')
+        var name = document.getElementById('nome')
         var img = document.getElementById('url')
         name.value = editRecipe.nome
         url.value = editRecipe.imagemUrl
@@ -83,23 +84,21 @@
 
         receitas.push(newRecipe);
 
+        async function postServer() {
+            const fecthPromise = fetch(url, {
+                method: "POST",
 
-        // localStorage.setItem("receitas", JSON.stringify(receitas));
+                body: JSON.stringify(newRecipe),
 
-        // e.target.submit();
-
-        async function postData(url = '', data = {}) {
-            const response = await fetch(url, {
-                method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
+                    "Content-type": "application/json; charset=UTF-8"
+                }
             })
-
-            return response.json();
+                .then(response => response.json())
         }
-
+        postServer();
+        e.target.submit();
+    }
 
 </script>
 

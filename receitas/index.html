@@ -87,9 +87,15 @@
         var receitas = JSON.parse(localStorage.getItem("receitas"))
 
         var objIdIndex = receitas.findIndex(receita => receita.id == id)
-        receitas.splice(objIdIndex, 1)
-        localStorage.setItem("receitas", JSON.stringify(receitas))
-        location.reload()
+        var removed = receitas.splice(objIdIndex, 1)
+
+
+        async function deleteObj() {
+            await fetch({ method: 'DELETE' })
+                .then((response) => console.log(objIdIndex))
+        }
+        deleteObj();
+        location.reload();
     }
 
     function getValue(value) {
