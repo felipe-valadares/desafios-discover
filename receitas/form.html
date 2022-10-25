@@ -8,97 +8,77 @@
     <title>Document</title>
 </head>
 
-<body onload="getRecipe()">
-    <form onsubmit="return onSubmit(event)" action="index.html">
+<body onload="editItem()">
+    <form>
         <b>Nome</b><input type="text" name="nome" id="nome" value="">
 
         <b>URL da Imagem</b><input type="url" value="" id="url">
 
 
-        <input type="submit" value="Submit">
+        <input type="button" value="Submit" onclick="onSubmit(event, editId)">
     </form>
 </body>
 
 <script>
-    
-    const url = 'http://localhost:3000/receitas'
-    async function getData() {
-        const r = await fetch(url);
-        const data = Promise.resolve(r.json())
-            .then((value) => localStorage.setItem('receitas', JSON.stringify(value)))
+    const url = "http://localhost:3000/receitas"
 
-    }
+    const queryString = window.location.search
+    const urlParams = new URLSearchParams(queryString)
+    var editId = urlParams.get('id')
 
-    var receitas = JSON.parse(localStorage.getItem('receitas'))
-
-    function getId() {
-        var id = window.location.href.toString().substr(-1)
-        return parseInt(id)
-    }
-
-    function getRecipe() {
-        var id = getId()
-
-
-
-        var editRecipe = receitas.find(receita => receita.id == id)
-
-        var name = document.getElementById('nome')
-        var img = document.getElementById('url')
-        name.value = editRecipe.nome
-        url.value = editRecipe.imagemUrl
-
-        if (id > 0) {
-            var editRecipeIndex = receitas.findIndex(receita => receita.id == id)
-            receitas.splice(editRecipeIndex, 1)
-
-        }
-
-    }
-
-    function entryItems() {
-        receitas.sort((a, b) => a.id - b.id);
-        var lastId = receitas[receitas.length - 1]
-        var newId = lastId.id + 1
-        return newId
-
-        if (id > 0) {
-            id = getId()
-            newId = getId()
-        }
-    }
-
-
-
-    function onSubmit(e) {
-
-
-        e.preventDefault()
-
+    async function editItem() {
         const name = document.getElementById('nome')
         const img = document.getElementById('url')
 
-        var entryItemsString = entryItems()
+        if (editId > 0) {
+            const dataFetch = await fetch(url)
+            const recipes = await dataFetch.json()
 
-        var newRecipe = { id: entryItemsString, nome: name.value, imagemUrl: img.value, dataCriacao: new Date() }
+            objId = recipes.find(receita => receita.id == editId)
 
-        receitas.push(newRecipe);
-
-        async function postServer() {
-            const fecthPromise = fetch(url, {
-                method: "POST",
-
-                body: JSON.stringify(newRecipe),
-
-                headers: {
-                    "Content-type": "application/json; charset=UTF-8"
-                }
-            })
-                .then(response => response.json())
+            name.value = objId.nome
+            img.value = objId.imagemUrl
         }
-        postServer();
-        e.target.submit();
+
     }
+
+    async function postServer(newRecipe) {
+        await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(newRecipe),
+        }
+        )
+    }
+
+    async function onSubmit(e, editId) {
+        const name = document.getElementById('nome')
+        const img = document.getElementById('url')
+
+        const apiData = await fetch(url)
+        const receitas = await apiData.json()
+        var id = receitas.sort((a, b) => a.id - b.id).at(-1).id + 1
+        var newRecipe = { id: id, nome: name.value, imagemUrl: img.value, dataCriacao: new Date() }
+
+        async function patchServer(editId) {
+            const dataPatch = await fetch(`http://localhost:3000/receitas/${editId}`, {
+                method: 'PATCH',
+                body: JSON.stringify({ id: editId, nome: name.value, imagemUrl: img.value, dataCriacao: new Date() }),
+                headers: { 'Content-type': 'application/json; charset=UTF-8', },
+            })
+        }
+        try {
+            if (editId > 0) { await patchServer(editId) }
+            else { await postServer(newRecipe) }
+        } catch (err) {
+            alert(err)
+        } finally {
+            window.location.replace('index.html')
+        }
+    }
+
 
 </script>
 

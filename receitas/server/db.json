@@ -28,7 +28,13 @@
       "id": 5,
       "nome": "Pizza",
       "imagemUrl": "https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cGl6emF8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60",
-      "dataCriacao": "2022-10-20T17:22:44.382Z"
+      "dataCriacao": "2022-10-25T00:54:49.056Z"
+    },
+    {
+      "id": 6,
+      "nome": "Cheesecake",
+      "imagemUrl": "https://images.unsplash.com/photo-1533134242443-d4fd215305ad?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTF8fGNoZWVzZWNha2V8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60",
+      "dataCriacao": "2022-10-24T21:57:49.715Z"
     }
   ]
 }

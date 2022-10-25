@@ -65,14 +65,15 @@
 </body>
 
 <script>
-    function onloadPage() {
+    async function onloadPage() {
         var foto = document.getElementById('foto')
         let params = new URLSearchParams(document.location.search);
         let id = params.get("id")
-        var tittle = document.getElementById('tittle')
-        var h1 = document.getElementById('h1')
+        const tittle = document.getElementById('tittle')
+        const h1 = document.getElementById('h1')
 
-        var receitas = JSON.parse(localStorage.getItem('receitas'))
+        const receitasFetch = await fetch('http://localhost:3000/receitas')
+        const receitas = await receitasFetch.json()
 
         var filtered = receitas.find(receita => receita.id == id)
 

@@ -36,7 +36,7 @@
 
 <script>
 
-    function onloadPage(imagem, nome) {
+    async function onloadPage(imagem, nome) {
         var tabela = document.getElementById("table")
         var tbody = tabela.getElementsByTagName('tbody')[0]
 
@@ -52,16 +52,8 @@
 
         const url = "http://localhost:3000/receitas"
 
-        async function getData() {
-            const r = await fetch(url);
-            const data = await r.json();
-
-            localStorage.setItem('receitas', JSON.stringify(data))
-        }
-
-        getData();
-
-        var receitas = JSON.parse(localStorage.getItem("receitas"))
+        const receitasFetch = await fetch(url)
+        var receitas = await receitasFetch.json()
 
         receitas.forEach(receita => {
             var tr = document.createElement("tr")
@@ -81,21 +73,29 @@
         window.location.href = `form.html?id=${id}`
     }
 
-    function onClickExcluir(event) {
+    async function onClickExcluir(event) {
         var id = this.parentElement.parentElement.children[0].innerText
 
-        var receitas = JSON.parse(localStorage.getItem("receitas"))
+        const fetchObj = await fetch('http://localhost:3000/receitas')
+        const receitas = await fetchObj.json()
 
-        var objIdIndex = receitas.findIndex(receita => receita.id == id)
-        var removed = receitas.splice(objIdIndex, 1)
+        var removedObj = receitas.find(receita => receita.id == id)
 
+        const deleteData = async () => {
+            const response = await fetch(`http://localhost:3000/receitas/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(removedObj),
+            });
 
-        async function deleteObj() {
-            await fetch({ method: 'DELETE' })
-                .then((response) => console.log(objIdIndex))
+            const data = await response.json();
+
+            console.log(response)
         }
-        deleteObj();
-        location.reload();
+        
+        deleteData();
     }
 
     function getValue(value) {
